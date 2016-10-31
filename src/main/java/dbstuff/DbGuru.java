@@ -248,10 +248,11 @@ public class DbGuru {
      * @return @throws SQLException
      */
     public ArrayList<EnviromentScript> getActiveEnviromentScripts() throws SQLException {
-        EnviromentScript[] scripts = (EnviromentScript[]) this.getAllEnviromentScripts()
+        ArrayList<EnviromentScript> results = new ArrayList<EnviromentScript>();
+        this.getAllEnviromentScripts()
                 .stream()
                 .filter(script -> script.isActive())
-                .toArray();
-        return new ArrayList<>(Arrays.asList(scripts));
+                .forEach(script -> results.add(script));
+        return results;
     }
 }
