@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>el1ya5</groupId>
     <artifactId>SayoHome</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>PREALPHA</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

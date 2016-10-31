@@ -5,29 +5,14 @@
  */
 package jsstuff;
 
-import org.mozilla.javascript.ScriptableObject;
-
 /**
  *
  * @author elias
  */
 // Das ist das SayoHome-Objekt in der JS-Umgebung
-public class SayoHomeObject extends ScriptableObject {
+public class SayoHomeObject {
 
-    public SayoHomeObject() {
-        
-    }
-    
-
-    public String getClassName() {
-        return "sayohome";
-    }
-    
-    public void jsConstructor() {
-    
-    }
-    
-    public void jsFunction_println(String msg) {
+    public static void println(String msg) {
         System.out.println(msg);
     }
 }

@@ -11,26 +11,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
  *
  * @author elias
  */
-public class HttpGetRequestObject extends ScriptableObject {
+public class HttpGetRequestObject {
 
     private String url = null;
     private String result = null;
 
-    public void jsConstructor(String url) {
+    public void HttpGetRequestObject(String url) {
         this.url = url;
     }
-
-    public String getClassName() { 
-        return "HttpGet";
-    }
     
-    public void jsFunction_send() throws MalformedURLException, IOException {
+    public void send() throws MalformedURLException, IOException {
         StringBuilder r = new StringBuilder();
         URL u = new URL(this.url);
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
@@ -44,7 +39,7 @@ public class HttpGetRequestObject extends ScriptableObject {
         this.result = r.toString();
     }
     
-    public String jsFunction_getResultString() {
+    public String getResultString() {
         return this.result;
     }
 }

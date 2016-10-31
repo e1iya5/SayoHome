@@ -8,22 +8,21 @@ package jsstuff;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Date;
-import org.mozilla.javascript.ScriptableObject;
 import sayohome.SayoHome;
 
 /**
  *
  * @author elias
  */
-public class LogEntryObject extends ScriptableObject{
+public class LogEntryObject {
 
     private Time time;
     private String msg;
     private int entryMode;
-
-    public LogEntryObject(){
     
-    }
+    public static int INFO = 1;
+    public static int WARNING = 2;
+    public static int ERROR = 3;
     
     public LogEntryObject(Time time, String msg, int mode){
         this.time = time;
@@ -49,16 +48,12 @@ public class LogEntryObject extends ScriptableObject{
         return this.time;
     }
 
-    public String getClassName() {
-        return "LogEntry";
-    }
-
-    public LogEntryObject jsFunction_setMode(int mode) {
+    public LogEntryObject setMode(int mode) {
         this.entryMode = mode;
         return this;
     }
     
-    public void jsFunction_save() throws SQLException{
+    public void save() throws SQLException{
         SayoHome.getDbGuru().createLogEntry(this);
     }
 }

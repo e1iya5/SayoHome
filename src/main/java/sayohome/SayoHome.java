@@ -41,9 +41,6 @@ public class SayoHome {
         // Activate Time Rules in GEG
         refreshTimeRules();
 
-        // JavaScript-Test
-        ScriptingEnviroment env = new ScriptingEnviroment();
-
         new MainServer();
 
         // Start "Time Event Polling Service"

@@ -8,6 +8,9 @@ package jsstuff;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -19,7 +22,7 @@ import rules.TimeRule;
  */
 public class ScriptingEnviroment {
 
-    Context cx;
+    /* Context cx;
     Scriptable scope;
 
     public ScriptingEnviroment() {
@@ -40,5 +43,23 @@ public class ScriptingEnviroment {
 
     public void runScript(String script) {
         this.cx.evaluateString(this.scope, script, "<cmd>", 1, null);
+    }*/
+    private ScriptEngine engine;
+
+    public ScriptingEnviroment() {
+        this.engine = new ScriptEngineManager().getEngineByName("nashorn");
+        
+        this.runScript("var sayohome = Java.type('jsstuff.SayoHomeObject');");
+        this.runScript("var HttpGet = Java.type('jsstuff.HttpGetRequestObject');");
+        this.runScript("var LogEntry = Java.type('jsstuff.LogEntryObject');");
+    }
+    
+     public void runScript(String script) {
+        try {
+            this.engine.eval(script);
+        } catch (ScriptException ex) {
+            // TODO: Print script error to SayoHome logs
+            Logger.getLogger(ScriptingEnviroment.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
