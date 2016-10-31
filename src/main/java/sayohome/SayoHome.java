@@ -1,14 +1,11 @@
 package sayohome;
 
-import shcp.ShcpSocket;
 import dbstuff.DbGuru;
 import httpstuff.MainServer;
 import java.sql.SQLException;
-import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
+import jsstuff.SayoHomeObject;
 import jsstuff.ScriptingEnviroment;
-import rules.TimePattern;
-import rules.TimeRule;
 
 /**
  *
@@ -34,6 +31,9 @@ public class SayoHome {
         // Start "DB Guru"
         dbG = new DbGuru(Config.getDbPath());
 
+        // Load Enviroment Scripts
+        loadEnviromentScripts();
+
         // Start "General Event Guru"
         GeneralEventGuru geg = new GeneralEventGuru(eventChannel);
         new Thread(geg).start();
@@ -46,13 +46,13 @@ public class SayoHome {
         // Start "Time Event Polling Service"
         TimeEventPollingService teps = new TimeEventPollingService(eventChannel);
         new Thread(teps).start();
-
-        // Start "SayoHome Controlling Protocol" Server
-        ShcpSocket shcp = new ShcpSocket(eventChannel);
-        new Thread(shcp).start();
     }
 
     public static DbGuru getDbGuru() {
         return dbG;
+    }
+
+    private static void loadEnviromentScripts() {
+        SayoHomeObject.clearServices();
     }
 }

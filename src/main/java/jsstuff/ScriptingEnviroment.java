@@ -52,6 +52,7 @@ public class ScriptingEnviroment {
         this.runScript("var sayohome = Java.type('jsstuff.SayoHomeObject');");
         this.runScript("var HttpGet = Java.type('jsstuff.HttpGetRequestObject');");
         this.runScript("var LogEntry = Java.type('jsstuff.LogEntryObject');");
+        this.runScript("var Service = Java.type('jsstuff.ServiceObject');");
     }
     
      public void runScript(String script) {
