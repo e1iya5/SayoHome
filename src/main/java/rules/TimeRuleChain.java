@@ -6,7 +6,7 @@
 package rules;
 
 import java.util.Date;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,10 +14,10 @@ import java.util.Vector;
  */
 public class TimeRuleChain {
 
-    Vector<TimeRule> rules;
+    ArrayList<TimeRule> rules;
 
     public TimeRuleChain() {
-        this.rules = new Vector<TimeRule>();
+        this.rules = new ArrayList<TimeRule>();
     }
 
     public void addRule(TimeRule rule){

@@ -23,8 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Vector;
 import jsstuff.EnviromentScript;
 import jsstuff.LogEntryObject;
 import rules.TimePattern;
@@ -37,19 +38,22 @@ import rules.TimeRule;
 public class DbGuru {
 
     private Connection c;
-    private String dbPath;
 
+    /**
+     *
+     * @param dbPath
+     * @throws SQLException
+     */
     public DbGuru(String dbPath) throws SQLException {
         c = null;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
 
-        this.dbPath = dbPath;
         this.initDbModel();
     }
 
@@ -74,8 +78,12 @@ public class DbGuru {
         s.run(this.c);
     }
 
-    /** USER **/
-    
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
     public User getUserById(String id) throws SQLException {
         ResultSet rs = this.getStatementResult(new GetUserByIdStatement(id));
         if (!rs.next()) {
@@ -84,8 +92,15 @@ public class DbGuru {
         return new User(rs.getString("id"), rs.getString("username"));
     }
 
-    /** SESSION **/
-    
+    /**
+     *
+     * @param username
+     * @param pwd
+     * @return
+     * @throws SQLException
+     * @throws IllegalArgumentException
+     * @throws ParseException
+     */
     public Session login(String username, String pwd) throws SQLException, IllegalArgumentException, ParseException {
         ResultSet rs = this.getStatementResult(new GetUserByNameStatement(username));
         if (!rs.next()) {
@@ -115,7 +130,14 @@ public class DbGuru {
         }
         return s;
     }
-    
+
+    /**
+     *
+     * @param token
+     * @return
+     * @throws SQLException
+     * @throws ParseException
+     */
     public Session getSessionByToken(String token) throws SQLException, ParseException {
         ResultSet rs = this.getStatementResult(new GetSessionByTokenStatement(token));
         if (!rs.next()) {
@@ -127,15 +149,18 @@ public class DbGuru {
         return s;
     }
 
-    /** TIME RULES **/
-    
-    public Vector<TimeRule> getAllTimeRules() throws SQLException {
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<TimeRule> getAllTimeRules() throws SQLException {
         ResultSet rs = this.getStatementResult(new GetAllTimeRulesStatement());
-        Vector<TimeRule> result = new Vector<TimeRule>();
+        ArrayList<TimeRule> result = new ArrayList<TimeRule>();
         while (rs.next()) {
             Gson gson = new Gson();
             TimePattern[] pattern = gson.fromJson(rs.getString("trigger"), TimePattern[].class);
-            Vector patternNew = new Vector<TimePattern>();
+            ArrayList patternNew = new ArrayList<TimePattern>();
             for (Object p : pattern) {
                 patternNew.add(p);
             }
@@ -146,9 +171,14 @@ public class DbGuru {
         return result;
     }
 
-    public Vector<TimeRule> getActiveTimeRules() throws SQLException {
-        Vector<TimeRule> all = this.getAllTimeRules();
-        Vector<TimeRule> result = new Vector<TimeRule>();
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<TimeRule> getActiveTimeRules() throws SQLException {
+        ArrayList<TimeRule> all = this.getAllTimeRules();
+        ArrayList<TimeRule> result = new ArrayList<TimeRule>();
         for (TimeRule rule : all) {
             if (rule.isActive()) {
                 result.add(rule);
@@ -157,39 +187,71 @@ public class DbGuru {
         return result;
     }
 
+    /**
+     *
+     * @param rule
+     * @throws SQLException
+     */
     public void createTimeRule(TimeRule rule) throws SQLException {
         this.runStatement(new CreateTimeRuleStatement(rule));
     }
-    
-    public void updateTimeRule(TimeRule rule) throws SQLException{
+
+    /**
+     *
+     * @param rule
+     * @throws SQLException
+     */
+    public void updateTimeRule(TimeRule rule) throws SQLException {
         this.runStatement(new UpdateTimeRuleStatement(rule));
     }
-    
-    /** LOGS **/
-    
-    public void createLogEntry(LogEntryObject entry) throws SQLException{
+
+    /**
+     * @param entry
+     * @throws java.sql.SQLException
+     */
+    public void createLogEntry(LogEntryObject entry) throws SQLException {
         this.runStatement(new CreateLogEntryStatement(entry));
     }
-    
-    public Vector<LogEntryObject> getAllLogEntries() throws SQLException{
+
+    /**
+     *
+     * @return @throws SQLException
+     */
+    public ArrayList<LogEntryObject> getAllLogEntries() throws SQLException {
         ResultSet rs = this.getStatementResult(new GetAllLogEntriesStatement());
-        Vector<LogEntryObject> entries = new Vector<LogEntryObject>();
-        while(rs.next()){
+        ArrayList<LogEntryObject> entries = new ArrayList<LogEntryObject>();
+        while (rs.next()) {
             LogEntryObject entry = new LogEntryObject(rs.getTime("time"), rs.getString("message"), rs.getInt("mode"));
             entries.add(entry);
         }
         return entries;
     }
-    
-    /** ENVIROMENT SCRIPTS **/
 
-    public Vector<EnviromentScript> getAllEnviromentScripts() throws SQLException{
+    /**
+     * get all enviroment scripts
+     *
+     * @return
+     * @throws java.sql.SQLException *
+     */
+    public ArrayList<EnviromentScript> getAllEnviromentScripts() throws SQLException {
         ResultSet rs = this.getStatementResult(new GetAllEnviromentScriptsStatement());
-        Vector<EnviromentScript> scripts = new Vector<EnviromentScript>();
-        while(rs.next()){
+        ArrayList<EnviromentScript> scripts = new ArrayList<>();
+        while (rs.next()) {
             EnviromentScript script = new EnviromentScript(rs.getInt("id"), rs.getString("title"), rs.getString("code"), rs.getBoolean("active"));
             scripts.add(script);
         }
         return scripts;
+    }
+
+    /**
+     *
+     * @return @throws SQLException
+     */
+    public ArrayList<EnviromentScript> getActiveEnviromentScripts() throws SQLException {
+        EnviromentScript[] scripts = (EnviromentScript[]) this.getAllEnviromentScripts()
+                .stream()
+                .filter(script -> script.isActive())
+                .toArray();
+        return new ArrayList<>(Arrays.asList(scripts));
     }
 }

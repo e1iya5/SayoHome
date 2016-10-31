@@ -5,7 +5,7 @@
  */
 package sayohome;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import rules.TimeRule;
 
 /**
@@ -14,14 +14,14 @@ import rules.TimeRule;
  */
 public class RefreshTimeRulesEvent implements Event {
 
-    private Vector<TimeRule> rules;
+    private ArrayList<TimeRule> rules;
 
-    public RefreshTimeRulesEvent(Vector<TimeRule> rules) {
+    public RefreshTimeRulesEvent(ArrayList<TimeRule> rules) {
         this.rules = rules;
     }
 
     @Override
-    public Vector<TimeRule> getBody() {
+    public ArrayList<TimeRule> getBody() {
         return this.rules;
     }
 

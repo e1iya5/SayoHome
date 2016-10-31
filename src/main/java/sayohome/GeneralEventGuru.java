@@ -1,7 +1,7 @@
 package sayohome;
 
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import rules.TimePattern;

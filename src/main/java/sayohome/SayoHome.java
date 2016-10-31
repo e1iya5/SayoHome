@@ -26,7 +26,8 @@ package sayohome;
 import dbstuff.DbGuru;
 import httpstuff.MainServer;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import jsstuff.EnviromentScript;
 import jsstuff.SayoHomeObject;
@@ -80,9 +81,9 @@ public class SayoHome {
     private static void loadEnviromentScripts() throws SQLException {
         SayoHomeObject.clearServices();
         ScriptingEnviroment env = new ScriptingEnviroment();
-        Vector<EnviromentScript> scripts = getDbGuru().getAllEnviromentScripts();
-        for(EnviromentScript script: scripts){
+        ArrayList<EnviromentScript> scripts = getDbGuru().getActiveEnviromentScripts();
+        scripts.stream().forEach((script) -> {
             env.runScript(script.getCode());
-        }
+        });
     }
 }

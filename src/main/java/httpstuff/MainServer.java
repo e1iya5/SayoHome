@@ -11,7 +11,7 @@ import dbstuff.Session;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 import jsstuff.LogEntryObject;
 import rules.TimePattern;
 import rules.TimeRule;
@@ -48,12 +48,12 @@ public class MainServer {
             return gson.toJson(resData);
         });
         get("/api/timerule/all", (request, response) -> {
-            Vector<TimeRule> rules = SayoHome.getDbGuru().getAllTimeRules();
-            Vector<Map> result = new Vector<Map>();
+            ArrayList<TimeRule> rules = SayoHome.getDbGuru().getAllTimeRules();
+            ArrayList<Map> result = new ArrayList<Map>();
             Gson gson = new Gson();
             for (TimeRule rule : rules) {
                 HashMap<String, Object> ruleMap = new HashMap<String, Object>();
-                Vector<Map> patternList = new Vector<Map>();
+                ArrayList<Map> patternList = new ArrayList<Map>();
                 for (TimePattern pattern : rule.getPatterns()) {
                     HashMap<String, Integer> patternMap = new HashMap<String, Integer>();
                     patternMap.put("year", pattern.getYear() < 0 ? null : pattern.getYear());
@@ -80,7 +80,7 @@ public class MainServer {
             String ruleBody = (String) data.get("ruleBody");
             boolean active = (boolean) data.get("active");
             ArrayList<LinkedTreeMap<String, Double>> timePattern = (ArrayList<LinkedTreeMap<String, Double>>) data.get("timePattern");
-            Vector<TimePattern> patternList = new Vector<TimePattern>();
+            ArrayList<TimePattern> patternList = new ArrayList<TimePattern>();
             for (LinkedTreeMap<String, Double> p : timePattern) {
                 int year = p.containsKey("year") && p.get("year") != null ? (int) p.get("year").intValue() : -1;
                 int month = p.containsKey("month") && p.get("month") != null ? (int) p.get("month").intValue() : -1;
@@ -97,17 +97,17 @@ public class MainServer {
             SayoHome.refreshTimeRules();
             return "ok";
         });
-        get("/api/log/entries", (request, response)->{
-            Vector<LogEntryObject> entries = SayoHome.getDbGuru().getAllLogEntries();
-            Vector<HashMap<String, String>> results = new Vector<HashMap<String, String>>();
+        get("/api/log/entries", (request, response) -> {
+            ArrayList<LogEntryObject> entries = SayoHome.getDbGuru().getAllLogEntries();
+            ArrayList<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
             Gson gson = new Gson();
-            for(LogEntryObject entry: entries){
+            for (LogEntryObject entry : entries) {
                 HashMap<String, String> entryMap = new HashMap<String, String>();
                 entryMap.put("time", entry.getTime().toGMTString());
                 entryMap.put("mode", entry.getEntryMode() == 3 ? "error" : (entry.getEntryMode() == 2 ? "warning" : "info"));
                 entryMap.put("message", entry.getMessage());
                 results.add(entryMap);
-            }   
+            }
             return gson.toJson(results);
         });
     }

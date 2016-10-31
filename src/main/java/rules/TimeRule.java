@@ -6,7 +6,7 @@
 package rules;
 
 import java.util.Date;
-import java.util.Vector;
+import java.util.ArrayList;
 import jsstuff.ScriptingEnviroment;
 
 /**
@@ -15,7 +15,7 @@ import jsstuff.ScriptingEnviroment;
  */
 public class TimeRule implements Runnable {
 
-    private Vector<TimePattern> timePattern;
+    private ArrayList<TimePattern> timePattern;
     private String ruleBody;
     private boolean active;
     private int id;
@@ -30,7 +30,7 @@ public class TimeRule implements Runnable {
         return false;
     }
 
-    public Vector<TimePattern> getPatterns() {
+    public ArrayList<TimePattern> getPatterns() {
         return this.timePattern;
     }
 
@@ -38,7 +38,7 @@ public class TimeRule implements Runnable {
         return this.ruleBody;
     }
 
-    public TimeRule(String name, boolean active, Vector<TimePattern> timePattern, String ruleBody) {
+    public TimeRule(String name, boolean active, ArrayList<TimePattern> timePattern, String ruleBody) {
         this.name = name;
         this.active = active;
         this.timePattern = timePattern;

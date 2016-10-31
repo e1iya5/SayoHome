@@ -44,4 +44,8 @@ public class EnviromentScript {
     public String getCode(){
         return this.code;
     }
+    
+    public boolean isActive(){
+        return this.active;
+    }
 }

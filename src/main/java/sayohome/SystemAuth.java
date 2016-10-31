@@ -2,7 +2,7 @@ package sayohome;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,7 +10,7 @@ import java.util.Vector;
  */
 public class SystemAuth {
 
-    //private static Vector<Session> sessionList = new Vector<Session>();
+    //private static ArrayList<Session> sessionList = new ArrayList<Session>();
 
     /* public static Session createSession() {
         Session s = new Session();
