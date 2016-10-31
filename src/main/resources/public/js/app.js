@@ -13,6 +13,10 @@ SayoHome.config(function($routeProvider) {
     templateUrl: './partials/logs.html',
     controller: "LogsCtrl"
   })
+  .when('/enviromentscripts', {
+    templateUrl: './partials/enviromentscripts.html',
+    controller: "EnviromentScriptsCtrl"
+  })
   .when('/timerules', {
     templateUrl: './partials/timerules.html',
     controller: "TimeRulesCtrl"

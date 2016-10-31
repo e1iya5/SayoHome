@@ -1,3 +1,5 @@
+/* global SayoHome, $http */
+
 SayoHome.controller("MainCtrl", function ($scope, $rootScope, $location, session, $mdSidenav) {
     session.init();
     $scope.toggleSidenav = function () {
@@ -46,10 +48,25 @@ SayoHome.controller("LogsCtrl", function ($scope, $rootScope, $http, session) {
             .error(function (data, status, header, config) {
 
             });
-    $scope.formatDate = function(date){
+    $scope.formatDate = function (date) {
         var d = new Date(date);
-        return d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
-    }
+        return d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+    };
+});
+
+SayoHome.controller("EnviromentScriptsCtrl", function ($scope, $rootScope, $http, session) {
+    $rootScope.showSidenav();
+    $scope.scripts = [];
+    $scope.loadScripts = function () {
+        $http.get("./api/enviromentscripts/all")
+                .success(function (data, status, headers, config) {
+                    $scope.scripts = data;
+                })
+                .error(function (data, status, header, config) {
+
+                });
+    };
+    $scope.loadScripts();
 });
 
 SayoHome.controller("TimeRulesCtrl", function ($scope, $rootScope, $http, session) {
@@ -65,14 +82,14 @@ SayoHome.controller("TimeRulesCtrl", function ($scope, $rootScope, $http, sessio
 
     $scope.saveRule = function (rule) {
         console.log("save rule " + rule.id);
-        $http.post("./api/timerule/"+rule.id+"/save", rule)
+        $http.post("./api/timerule/" + rule.id + "/save", rule)
                 .success(function (data, status, headers, config) {
-                    
+
                 })
                 .error(function (data, status, header, config) {
 
                 });
-    }
+    };
 });
 
 
