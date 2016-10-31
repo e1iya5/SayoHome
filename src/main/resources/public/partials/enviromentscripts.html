@@ -1,2 +1,19 @@
 <h1>Umgebungsskripte</h1>
-<p>{{scripts}}</p>
+<md-card ng-repeat="script in scripts">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">{{script.title}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <md-switch aria-label="Aktiv?" ng-model="script.active">Aktiv?</md-switch><br>
+        <md-input-container class="md-block">
+            <label>Code</label>
+            <textarea ng-model="script.code" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-raised md-warn">L&ouml;schen</md-button>
+        <md-button class="md-raised md-primary" ng-click="saveScript(script)">Speichern</md-button>
+    </md-card-actions>
+</md-card>

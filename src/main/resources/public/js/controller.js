@@ -66,6 +66,9 @@ SayoHome.controller("EnviromentScriptsCtrl", function ($scope, $rootScope, $http
 
                 });
     };
+    $scope.saveScript = function (script) {
+        console.log(script);
+    };
     $scope.loadScripts();
 });
 
