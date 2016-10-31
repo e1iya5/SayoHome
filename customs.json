@@ -1,0 +1,23 @@
+{
+    "elements": {
+        "md-toolbar": {},
+        "md-sidenav": {},
+        "md-button": {
+            "attributes": {
+                "hide-gt-md": {},
+                "ng-click": {},
+                "class": {}
+            }
+        },
+        "md-input-container": {},
+        "md-content": {
+            "attributes": {
+                "layout-padding": {},
+                "ng-controller": {}
+            }
+        }
+    },
+    "attributes": {
+        "layout": {}
+    }
+}

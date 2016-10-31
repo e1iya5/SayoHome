@@ -1,0 +1,11 @@
+<h1>Logs</h1>
+<md-list>
+    <md-card ng-repeat="entry in entries">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline"><md-chip>[{{entry.mode}}]</md-chip> {{entry.message}}</span>
+                <span class="md-subhead">{{formatDate(entry.time)}}</span>
+            </md-card-title-text>
+        </md-card-title>
+    </md-card>
+</md-list>

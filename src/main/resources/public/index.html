@@ -1,0 +1,68 @@
+<html lang="en" ng-app="SayoHome">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SayoHome</title>
+        <link rel="stylesheet" href="./css/angular-material.min.css">
+    </head>
+    <body ng-cloak style="word-break:break-all;word-wrap:break-word" layout="column">
+        <script src="./libs/angular.min.js"></script>
+        <script src="./libs/angular-route.min.js"></script>
+        <script src="./libs/angular-animate.min.js"></script>
+        <script src="./libs/angular-aria.min.js"></script>
+        <script src="./libs/angular-messages.min.js"></script>
+
+        <script src="./libs/angular-material.min.js"></script>
+
+        <script src="./js/app.js" type="text/javascript"></script>
+        <script src="./js/services.js" type="text/javascript"></script>
+        <script src="./js/controller.js" type="text/javascript"></script>
+    <ui-view class="ng-scope" style="height: 100%;">
+        <div ng-controller="MainCtrl" layout-fill layout="row" flex>
+            <md-sidenav
+                class="md-sidenav-left md-whiteframe-z2"
+                md-is-locked-open="$mdMedia('gt-sm')"
+                md-whiteframe="4"
+                md-component-id="shSidenav"
+                style="min-width:300px;max-width:300px"
+                ng-show="showSidenav">
+
+                <md-toolbar class="md-theme-indigo">
+                    <h1 class="md-toolbar-tools">SayoHome</h1>
+                </md-toolbar>
+                <md-content layout-padding>
+                    <md-list>
+                        <md-list-item class="md-2-line" ng-click="openView('dashboard')">
+                            <div class="md-list-item-text">
+                                <h3>Dashboard</h3>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" ng-click="openView('logs')">
+                            <div class="md-list-item-text">
+                                <h3>Logs</h3>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" ng-click="openView('timerules')">
+                            <div class="md-list-item-text">
+                                <h3>Zeitregeln</h3>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+
+            </md-sidenav>
+            <div ng-show="showSidenav">
+                <md-button ng-click="toggleSidenav()" class="md-raised md-warn" hide-gt-sm>Men&uuml;</md-button>
+            </div>
+            <md-content ng-view style="width:100%" layout-padding></md-content>
+        </div>
+    </ui-view>
+    <style>
+        @font-face {
+            font-family:"icomoon";
+            src:url("./font/icomoon.eot");
+            font-weight:normal;
+            font-style:normal;
+        }
+    </style>
+</body>
+</html>

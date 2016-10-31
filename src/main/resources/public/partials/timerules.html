@@ -1,0 +1,50 @@
+<h1>Zeitregeln</h1>
+<!--<p>{{rules}}</p>-->
+<md-card ng-repeat="rule in rules">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">{{rule.name}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <md-switch aria-label="Aktiv?" ng-model="rule.active">Aktiv?</md-switch><br>
+        <md-input-container class="md-block">
+            <label>Code</label>
+            <textarea ng-model="rule.ruleBody" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+        <h3>Zeiten</h3>
+        <div>
+            <div ng-repeat="pattern in rule.timePattern">
+                <p>Zeit {{$index + 1}}</p>
+                <md-input-container>
+                    <label>Jahr</label>
+                    <input type="number" ng-model="pattern.year">
+                </md-input-container>
+                <md-input-container>
+                    <label>Monat</label>
+                    <input type="number" ng-model="pattern.month">
+                </md-input-container>
+                <md-input-container>
+                    <label>Tag</label>
+                    <input type="number" ng-model="pattern.dayOfMonth">
+                </md-input-container>
+                <md-input-container>
+                    <label>Wochentag</label>
+                    <input type="number" ng-model="pattern.dayOfWeek">
+                </md-input-container>
+                <md-input-container>
+                    <label>Stunde</label>
+                    <input type="number" ng-model="pattern.hour">
+                </md-input-container>
+                <md-input-container>
+                    <label>Minute</label>
+                    <input type="number" ng-model="pattern.minute">
+                </md-input-container>
+            </div>
+        </div>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-raised md-warn">L&ouml;schen</md-button>
+        <md-button class="md-raised md-primary" ng-click="saveRule(rule)">Speichern</md-button>
+    </md-card-actions>
+</md-card>
