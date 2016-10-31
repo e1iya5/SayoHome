@@ -5,7 +5,7 @@
  */
 package dbstuff.statements;
 
-import dbstuff.statements.GetUserByNameStatement;
+import dbstuff.statements.user.GetUserByNameStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

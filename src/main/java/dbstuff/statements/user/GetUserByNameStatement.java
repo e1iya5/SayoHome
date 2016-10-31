@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dbstuff.statements;
+package dbstuff.statements.user;
 
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
 import com.google.gson.Gson;
+import dbstuff.statements.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -16,11 +18,11 @@ import java.util.logging.Logger;
  *
  * @author elias
  */
-public class GetUserByIdStatement extends Statement {
-    private String id;
+public class GetUserByNameStatement extends Statement {
+    private String username;
     
-    public GetUserByIdStatement(String id) {
-        this.id = id;
+    public GetUserByNameStatement(String username) {
+        this.username = username;
     }
     
     @Override
@@ -28,8 +30,8 @@ public class GetUserByIdStatement extends Statement {
         Gson gson = new Gson();
         PreparedStatement s = null;
         try {
-            s = c.prepareStatement("Select * from User where id=?;");
-            s.setString(1, this.id);
+            s = c.prepareStatement("Select * from User where username=?;");
+            s.setString(1, this.username);
         } catch (SQLException ex) {
             Logger.getLogger(CreateTimeRuleStatement.class.getName()).log(Level.SEVERE, null, ex);
         }

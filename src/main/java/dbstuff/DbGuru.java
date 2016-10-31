@@ -6,25 +6,26 @@
 package dbstuff;
 
 import com.google.gson.Gson;
-import dbstuff.statements.CreateLogEntryStatement;
-import dbstuff.statements.CreateSessionStatement;
-import dbstuff.statements.CreateTimeRuleStatement;
-import dbstuff.statements.GetAllLogEntriesStatement;
-import dbstuff.statements.GetAllTimeRulesStatement;
-import dbstuff.statements.GetOpenSessionsStatement;
-import dbstuff.statements.GetSessionByTokenStatement;
-import dbstuff.statements.GetUserByIdStatement;
-import dbstuff.statements.GetUserByNameStatement;
-import dbstuff.statements.UpdateTimeRuleStatement;
+import dbstuff.statements.enviromentscripts.GetAllEnviromentScriptsStatement;
+import dbstuff.statements.logs.CreateLogEntryStatement;
+import dbstuff.statements.session.CreateSessionStatement;
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
+import dbstuff.statements.logs.GetAllLogEntriesStatement;
+import dbstuff.statements.timerules.GetAllTimeRulesStatement;
+import dbstuff.statements.session.GetOpenSessionsStatement;
+import dbstuff.statements.session.GetSessionByTokenStatement;
+import dbstuff.statements.user.GetUserByIdStatement;
+import dbstuff.statements.user.GetUserByNameStatement;
+import dbstuff.statements.timerules.UpdateTimeRuleStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import org.sqlite.JDBC;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Vector;
+import jsstuff.EnviromentScript;
 import jsstuff.LogEntryObject;
 import rules.TimePattern;
 import rules.TimeRule;
@@ -73,6 +74,8 @@ public class DbGuru {
         s.run(this.c);
     }
 
+    /** USER **/
+    
     public User getUserById(String id) throws SQLException {
         ResultSet rs = this.getStatementResult(new GetUserByIdStatement(id));
         if (!rs.next()) {
@@ -81,6 +84,8 @@ public class DbGuru {
         return new User(rs.getString("id"), rs.getString("username"));
     }
 
+    /** SESSION **/
+    
     public Session login(String username, String pwd) throws SQLException, IllegalArgumentException, ParseException {
         ResultSet rs = this.getStatementResult(new GetUserByNameStatement(username));
         if (!rs.next()) {
@@ -110,7 +115,7 @@ public class DbGuru {
         }
         return s;
     }
-
+    
     public Session getSessionByToken(String token) throws SQLException, ParseException {
         ResultSet rs = this.getStatementResult(new GetSessionByTokenStatement(token));
         if (!rs.next()) {
@@ -122,6 +127,8 @@ public class DbGuru {
         return s;
     }
 
+    /** TIME RULES **/
+    
     public Vector<TimeRule> getAllTimeRules() throws SQLException {
         ResultSet rs = this.getStatementResult(new GetAllTimeRulesStatement());
         Vector<TimeRule> result = new Vector<TimeRule>();
@@ -158,6 +165,8 @@ public class DbGuru {
         this.runStatement(new UpdateTimeRuleStatement(rule));
     }
     
+    /** LOGS **/
+    
     public void createLogEntry(LogEntryObject entry) throws SQLException{
         this.runStatement(new CreateLogEntryStatement(entry));
     }
@@ -172,5 +181,15 @@ public class DbGuru {
         return entries;
     }
     
-    
+    /** ENVIROMENT SCRIPTS **/
+
+    public Vector<EnviromentScript> getAllEnviromentScripts() throws SQLException{
+        ResultSet rs = this.getStatementResult(new GetAllEnviromentScriptsStatement());
+        Vector<EnviromentScript> scripts = new Vector<EnviromentScript>();
+        while(rs.next()){
+            EnviromentScript script = new EnviromentScript(rs.getInt("id"), rs.getString("title"), rs.getString("code"), rs.getBoolean("active"));
+            scripts.add(script);
+        }
+        return scripts;
+    }
 }

@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dbstuff.statements;
+package dbstuff.statements.session;
 
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
 import com.google.gson.Gson;
+import dbstuff.statements.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rules.TimeRule;
 
 /**
  *
  * @author elias
  */
-public class CreateTimeRuleStatement extends Statement {
+public class GetSessionByTokenStatement extends Statement {
 
-    TimeRule r;
+    private String token;
 
-    public CreateTimeRuleStatement(TimeRule r) {
-        this.r = r;
+    public GetSessionByTokenStatement(String token) {
+        this.token = token;
     }
 
     @Override
@@ -30,10 +31,8 @@ public class CreateTimeRuleStatement extends Statement {
         Gson gson = new Gson();
         PreparedStatement s = null;
         try {
-            s = c.prepareStatement("INSERT INTO TimeRule (name, trigger, code, active, permissions) VALUES (?, ?, ?, 1, '{}');");
-            s.setString(1, this.r.getName());
-            s.setString(2, gson.toJson(this.r.getPatterns()));
-            s.setString(3, this.r.getCode());
+            s = c.prepareStatement("Select * from Session where code=?;");
+            s.setString(1, this.token);
         } catch (SQLException ex) {
             Logger.getLogger(CreateTimeRuleStatement.class.getName()).log(Level.SEVERE, null, ex);
         }

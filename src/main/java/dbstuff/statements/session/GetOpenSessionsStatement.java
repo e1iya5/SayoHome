@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dbstuff.statements;
+package dbstuff.statements.session;
 
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
+import com.google.gson.Gson;
+import dbstuff.User;
+import dbstuff.statements.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,12 +19,19 @@ import java.util.logging.Logger;
  *
  * @author elias
  */
-public class GetAllTimeRulesStatement extends Statement {
+public class GetOpenSessionsStatement extends Statement {
+    private User u;
+    public GetOpenSessionsStatement(User u){
+        this.u = u;
+    }
+    
     @Override
     public PreparedStatement getPreparedStatement(Connection c) {
+        Gson gson = new Gson();
         PreparedStatement s = null;
         try {
-            s = c.prepareStatement("SELECT * FROM TimeRule;");
+            s = c.prepareStatement("SELECT * FROM Session WHERE userId = ?;");
+            s.setString(1, this.u.getId());
         } catch (SQLException ex) {
             Logger.getLogger(CreateTimeRuleStatement.class.getName()).log(Level.SEVERE, null, ex);
         }

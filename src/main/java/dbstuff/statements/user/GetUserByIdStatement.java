@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dbstuff.statements;
+package dbstuff.statements.user;
 
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
 import com.google.gson.Gson;
-import dbstuff.User;
+import dbstuff.statements.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -17,10 +18,11 @@ import java.util.logging.Logger;
  *
  * @author elias
  */
-public class GetOpenSessionsStatement extends Statement {
-    private User u;
-    public GetOpenSessionsStatement(User u){
-        this.u = u;
+public class GetUserByIdStatement extends Statement {
+    private String id;
+    
+    public GetUserByIdStatement(String id) {
+        this.id = id;
     }
     
     @Override
@@ -28,8 +30,8 @@ public class GetOpenSessionsStatement extends Statement {
         Gson gson = new Gson();
         PreparedStatement s = null;
         try {
-            s = c.prepareStatement("SELECT * FROM Session WHERE userId = ?;");
-            s.setString(1, this.u.getId());
+            s = c.prepareStatement("Select * from User where id=?;");
+            s.setString(1, this.id);
         } catch (SQLException ex) {
             Logger.getLogger(CreateTimeRuleStatement.class.getName()).log(Level.SEVERE, null, ex);
         }
