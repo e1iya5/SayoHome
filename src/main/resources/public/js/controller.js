@@ -67,7 +67,18 @@ SayoHome.controller("EnviromentScriptsCtrl", function ($scope, $rootScope, $http
                 });
     };
     $scope.saveScript = function (script) {
-        console.log(script);
+        console.log("save script " + script.id);
+        $http.post("./api/enviromentscripts/" + script.id + "/save", {
+            title: script.title,
+            code: script.code,
+            active: script.active
+        })
+                .success(function (data, status, headers, config) {
+
+                })
+                .error(function (data, status, header, config) {
+
+                });
     };
     $scope.loadScripts();
 });

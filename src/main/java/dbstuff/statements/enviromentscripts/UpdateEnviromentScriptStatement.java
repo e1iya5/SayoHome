@@ -21,39 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jsstuff;
+package dbstuff.statements.enviromentscripts;
+
+import com.google.gson.Gson;
+import dbstuff.statements.Statement;
+import dbstuff.statements.timerules.CreateTimeRuleStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jsstuff.EnviromentScript;
 
 /**
  *
  * @author e1iya5
  */
-public class EnviromentScript {
+public class UpdateEnviromentScriptStatement extends Statement {
+     EnviromentScript s;
 
-    private int id;
-    private String title;
-    private String code;
-    private boolean active;
+    public UpdateEnviromentScriptStatement(EnviromentScript s) {
+        this.s = s;
+    }
 
-    public EnviromentScript(int id, String title, String code, boolean active) {
-        this.id = id;
-        this.title = title;
-        this.code = code;
-        this.active = active;
-    }
-    
-    public String getTitle(){
-        return this.title;
-    }
-    
-    public int getId(){
-        return this.id;
-    }
-    
-    public String getCode(){
-        return this.code;
-    }
-    
-    public boolean isActive(){
-        return this.active;
+    @Override
+    public PreparedStatement getPreparedStatement(Connection c) {
+        Gson gson = new Gson();
+        PreparedStatement s = null;
+        try {
+            s = c.prepareStatement("UPDATE TimeRule SET title=?, code=?, active=? WHERE id=?;");
+            s.setString(1, this.s.getTitle());
+            s.setString(2, this.s.getCode());
+            s.setBoolean(3, this.s.isActive());
+            s.setInt(4, this.s.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateTimeRuleStatement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
     }
 }

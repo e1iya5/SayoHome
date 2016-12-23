@@ -135,5 +135,17 @@ public class MainServer {
             Gson gson = new Gson();
             return gson.toJson(scripts);
         });
+        
+        post("/api/enviromentscripts/:id/save", (request, response) -> {
+            Gson gson = new Gson();
+            Map<String, Object> data = gson.fromJson(request.body(), Map.class);
+            int id = (int) data.get("id");
+            boolean active = (boolean) data.get("active");
+            String title = (String) data.get("title");
+            String code = (String) data.get("code");
+            EnviromentScript s = new EnviromentScript(id, title, code, active);
+            SayoHome.getDbGuru().updateEnviromentScript(s);
+            return "ok";
+        });
     }
 }

@@ -7,6 +7,7 @@ package dbstuff;
 
 import com.google.gson.Gson;
 import dbstuff.statements.enviromentscripts.GetAllEnviromentScriptsStatement;
+import dbstuff.statements.enviromentscripts.UpdateEnviromentScriptStatement;
 import dbstuff.statements.logs.CreateLogEntryStatement;
 import dbstuff.statements.session.CreateSessionStatement;
 import dbstuff.statements.timerules.CreateTimeRuleStatement;
@@ -254,5 +255,14 @@ public class DbGuru {
                 .filter(script -> script.isActive())
                 .forEach(script -> results.add(script));
         return results;
+    }
+    
+    /**
+     *
+     * @param s
+     * @throws SQLException
+     */
+    public void updateEnviromentScript(EnviromentScript s) throws SQLException{
+        this.runStatement(new UpdateEnviromentScriptStatement(s));
     }
 }
