@@ -54,11 +54,11 @@ SayoHome.controller("LogsCtrl", function ($scope, $rootScope, $http, session) {
     };
 });
 
-SayoHome.controller("EnviromentScriptsCtrl", function ($scope, $rootScope, $http, session) {
+SayoHome.controller("EnvironmentScriptsCtrl", function ($scope, $rootScope, $http, session) {
     $rootScope.showSidenav();
     $scope.scripts = [];
     $scope.loadScripts = function () {
-        $http.get("./api/enviromentscripts/all")
+        $http.get("./api/environmentscripts/all")
                 .success(function (data, status, headers, config) {
                     $scope.scripts = data;
                 })
@@ -68,7 +68,7 @@ SayoHome.controller("EnviromentScriptsCtrl", function ($scope, $rootScope, $http
     };
     $scope.saveScript = function (script) {
         console.log("save script " + script.id);
-        $http.post("./api/enviromentscripts/" + script.id + "/save", {
+        $http.post("./api/environmentscripts/" + script.id + "/save", {
             title: script.title,
             code: script.code,
             active: script.active

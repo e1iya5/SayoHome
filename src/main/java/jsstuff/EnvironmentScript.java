@@ -27,14 +27,14 @@ package jsstuff;
  *
  * @author e1iya5
  */
-public class EnviromentScript {
+public class EnvironmentScript {
 
     private int id;
     private String title;
     private String code;
     private boolean active;
 
-    public EnviromentScript(int id, String title, String code, boolean active) {
+    public EnvironmentScript(int id, String title, String code, boolean active) {
         this.id = id;
         this.title = title;
         this.code = code;

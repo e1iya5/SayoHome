@@ -29,7 +29,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-import jsstuff.EnviromentScript;
+import jsstuff.EnvironmentScript;
 import jsstuff.SayoHomeObject;
 import jsstuff.ScriptingEnviroment;
 
@@ -81,7 +81,7 @@ public class SayoHome {
     private static void loadEnviromentScripts() throws SQLException {
         SayoHomeObject.clearServices();
         ScriptingEnviroment env = new ScriptingEnviroment();
-        ArrayList<EnviromentScript> scripts = getDbGuru().getActiveEnviromentScripts();
+        ArrayList<EnvironmentScript> scripts = getDbGuru().getActiveEnviromentScripts();
         scripts.stream().forEach((script) -> {
             env.runScript(script.getCode());
         });

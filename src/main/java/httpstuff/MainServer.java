@@ -11,7 +11,7 @@ import dbstuff.Session;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
-import jsstuff.EnviromentScript;
+import jsstuff.EnvironmentScript;
 import jsstuff.LogEntryObject;
 import rules.TimePattern;
 import rules.TimeRule;
@@ -124,26 +124,26 @@ public class MainServer {
             return gson.toJson(results);
         });
         
-        get("/api/enviromentscripts/all", (request, response) -> {
-            ArrayList<EnviromentScript> scripts = SayoHome.getDbGuru().getAllEnviromentScripts();
+        get("/api/environmentscripts/all", (request, response) -> {
+            ArrayList<EnvironmentScript> scripts = SayoHome.getDbGuru().getAllEnviromentScripts();
             Gson gson = new Gson();
             return gson.toJson(scripts);
         });
         
-        get("/api/enviromentscripts/active", (request, response) -> {
-            ArrayList<EnviromentScript> scripts = SayoHome.getDbGuru().getActiveEnviromentScripts();
+        get("/api/environmentscripts/active", (request, response) -> {
+            ArrayList<EnvironmentScript> scripts = SayoHome.getDbGuru().getActiveEnviromentScripts();
             Gson gson = new Gson();
             return gson.toJson(scripts);
         });
         
-        post("/api/enviromentscripts/:id/save", (request, response) -> {
+        post("/api/environmentscripts/:id/save", (request, response) -> {
             Gson gson = new Gson();
             Map<String, Object> data = gson.fromJson(request.body(), Map.class);
             int id = (int) data.get("id");
             boolean active = (boolean) data.get("active");
             String title = (String) data.get("title");
             String code = (String) data.get("code");
-            EnviromentScript s = new EnviromentScript(id, title, code, active);
+            EnvironmentScript s = new EnvironmentScript(id, title, code, active);
             SayoHome.getDbGuru().updateEnviromentScript(s);
             return "ok";
         });

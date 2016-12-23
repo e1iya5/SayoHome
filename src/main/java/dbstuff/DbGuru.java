@@ -6,8 +6,8 @@
 package dbstuff;
 
 import com.google.gson.Gson;
-import dbstuff.statements.enviromentscripts.GetAllEnviromentScriptsStatement;
-import dbstuff.statements.enviromentscripts.UpdateEnviromentScriptStatement;
+import dbstuff.statements.environmentscripts.GetAllEnvironmentScriptsStatement;
+import dbstuff.statements.environmentscripts.UpdateEnvironmentScriptStatement;
 import dbstuff.statements.logs.CreateLogEntryStatement;
 import dbstuff.statements.session.CreateSessionStatement;
 import dbstuff.statements.timerules.CreateTimeRuleStatement;
@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import jsstuff.EnviromentScript;
+import jsstuff.EnvironmentScript;
 import jsstuff.LogEntryObject;
 import rules.TimePattern;
 import rules.TimeRule;
@@ -234,11 +234,11 @@ public class DbGuru {
      * @return
      * @throws java.sql.SQLException *
      */
-    public ArrayList<EnviromentScript> getAllEnviromentScripts() throws SQLException {
-        ResultSet rs = this.getStatementResult(new GetAllEnviromentScriptsStatement());
-        ArrayList<EnviromentScript> scripts = new ArrayList<>();
+    public ArrayList<EnvironmentScript> getAllEnviromentScripts() throws SQLException {
+        ResultSet rs = this.getStatementResult(new GetAllEnvironmentScriptsStatement());
+        ArrayList<EnvironmentScript> scripts = new ArrayList<>();
         while (rs.next()) {
-            EnviromentScript script = new EnviromentScript(rs.getInt("id"), rs.getString("title"), rs.getString("code"), rs.getBoolean("active"));
+            EnvironmentScript script = new EnvironmentScript(rs.getInt("id"), rs.getString("title"), rs.getString("code"), rs.getBoolean("active"));
             scripts.add(script);
         }
         return scripts;
@@ -248,8 +248,8 @@ public class DbGuru {
      *
      * @return @throws SQLException
      */
-    public ArrayList<EnviromentScript> getActiveEnviromentScripts() throws SQLException {
-        ArrayList<EnviromentScript> results = new ArrayList<EnviromentScript>();
+    public ArrayList<EnvironmentScript> getActiveEnviromentScripts() throws SQLException {
+        ArrayList<EnvironmentScript> results = new ArrayList<EnvironmentScript>();
         this.getAllEnviromentScripts()
                 .stream()
                 .filter(script -> script.isActive())
@@ -262,7 +262,7 @@ public class DbGuru {
      * @param s
      * @throws SQLException
      */
-    public void updateEnviromentScript(EnviromentScript s) throws SQLException{
-        this.runStatement(new UpdateEnviromentScriptStatement(s));
+    public void updateEnviromentScript(EnvironmentScript s) throws SQLException{
+        this.runStatement(new UpdateEnvironmentScriptStatement(s));
     }
 }
